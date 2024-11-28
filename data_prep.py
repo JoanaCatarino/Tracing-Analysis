@@ -3,6 +3,9 @@
 Created on Tue Oct 29 17:06:20 2024
 
 @author: JoanaCatarino
+
+Prepare data frame that Napari outputs to facilitate further analysis 
+
 """
 
 import pandas as pd
@@ -12,10 +15,13 @@ import seaborn as sns
 import emoji
 
 # Select the animal to pre-process
-animal_id = 693754
+animal_id = 857302
+
+# Select channel to pre-process (cy3, green or dapi-colocalized cells)
+channel = 'cy3'
 
 # Import data for that animal
-data = pd.read_csv('Z:/dmclab/Joana/tracing/Analysis/data_raw/'f'{animal_id}_cells.csv')
+data = pd.read_csv('Z:/dmclab/Joana/tracing/Analysis/data_raw/'f'{animal_id}_cells_{channel}.csv')
 
 # Remove the column 'Unnamed' because it is not giving any extra information
 data = data.drop(columns=['Unnamed: 0'])
@@ -99,6 +105,6 @@ data = data.loc[:,['animal_id','acronym','region','part','layer','hemisphere','s
 
 
 # Save this pre-processed table without more experiment info 
-data.to_csv('Z:/dmclab/Joana/tracing/Analysis/data_prep/'f'{animal_id}_data.csv')
+data.to_csv('Z:/dmclab/Joana/tracing/Analysis/data_prep/'f'{animal_id}_{channel}_data.csv')
 
 print(emoji.emojize('DONE :star-struck:\U0001F42D'))
