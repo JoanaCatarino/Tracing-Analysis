@@ -13,9 +13,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 import emoji
+import os
 
 # Select the animal to plot
-animal_id = 848599
+animal_id = 857302
 
 # Select channel to plot
 channel = "cy3"
@@ -100,7 +101,22 @@ pp_ORB = round((ORB/cells)*100,1)
 pp_AI = round((AI/cells)*100,1)
 pp_FRP = round((FRP/cells)*100,1)
 
+# Proportion of cells per hemisphere
+pp_PL_ipsi = round((PL_ipsi/ipsi_cells)*100,1)
+pp_ILA_ipsi = round((ILA_ipsi/ipsi_cells)*100,1)
+pp_MOs_ipsi = round((MOs_ipsi/ipsi_cells)*100,1)
+pp_ACA_ipsi = round((ACA_ipsi/ipsi_cells)*100,1)
+pp_ORB_ipsi = round((ORB_ipsi/ipsi_cells)*100,1)
+pp_AI_ipsi = round((AI_ipsi/ipsi_cells)*100,1)
+pp_FRP_ipsi = round((FRP_ipsi/ipsi_cells)*100,1)
 
+pp_PL_contra = round((PL_contra/contra_cells)*100,1)
+pp_ILA_contra = round((ILA_contra/contra_cells)*100,1)
+pp_MOs_contra = round((MOs_contra/contra_cells)*100,1)
+pp_ACA_contra = round((ACA_contra/contra_cells)*100,1)
+pp_ORB_contra = round((ORB_contra/contra_cells)*100,1)
+pp_AI_contra = round((AI_contra/contra_cells)*100,1)
+pp_FRP_contra = round((FRP_contra/contra_cells)*100,1)
 #%%
 
 # General dataframe for plotting
@@ -115,24 +131,14 @@ columns = ['animal_id', 'sex', 'genotype', 'channel', 'region',
            'ACA_ipsi', 'ORB_ipsi', 'AI_ipsi', 'FRP_ipsi', 
            'PL_contra', 'ILA_contra', 'MOs_contra', 'ACA_contra', 
            'ORB_contra', 'AI_contra', 'FRP_contra','pp_PL', 
-           'pp_ILA', 'pp_MOs', 'pp_ACA', 'pp_ORB', 'pp_AI', 'pp_FRP']
+           'pp_ILA', 'pp_MOs', 'pp_ACA', 'pp_ORB', 'pp_AI', 'pp_FRP',
+           'pp_PL_ipsi','pp_ILA_ipsi', 'pp_MOs_ipsi', 'pp_ACA_ipsi', 'pp_ORB_ipsi', 'pp_AI_ipsi', 
+           'pp_FRP_ipsi', 'pp_PL_contra', 'pp_ILA_contra', 'pp_MOs_contra', 'pp_ACA_contra', 'pp_ORB_contra',
+           'pp_AI_contra', 'pp_FRP_contra']
 
 # Load existing DataFrame or create a new one
 
 file_path = 'Z:/dmclab/Joana/tracing/Analysis/df_it_cells.csv'
-
-try:
-    # try to read the file if it exists
-    if os.path.exists(file_path):
-        df_it_cells = pd.read_csv(file_path)
-    else:
-        # Create a new dataframe if the file does not exist
-        df_it_cells = pd.DataFrame(columns = columns)
-        
-except Exception as e:
-    print(f'Error reading file: {e}')
-    df_it_cells = pd.DataFrame(columns = columns)
-
 
 # Add data to the dataframe
 new_row = {
@@ -175,12 +181,34 @@ new_row = {
     'pp_ACA': pp_ACA,
     'pp_ORB': pp_ORB,
     'pp_AI': pp_AI,
-    'pp_FRP': pp_FRP}
+    'pp_FRP': pp_FRP,
+    'pp_PL_ipsi': pp_PL_ipsi,
+    'pp_ILA_ipsi': pp_ILA_ipsi,
+    'pp_MOs_ipsi': pp_MOs_ipsi,
+    'pp_ACA_ipsi': pp_ACA_ipsi,
+    'pp_ORB_ipsi': pp_ORB_ipsi,
+    'pp_AI_ipsi': pp_AI_ipsi, 
+    'pp_FRP_ipsi': pp_FRP_ipsi,
+    'pp_PL_contra': pp_PL_contra,
+    'pp_ILA_contra': pp_ILA_contra,
+    'pp_MOs_contra': pp_MOs_contra,
+    'pp_ACA_contra': pp_ACA_contra,
+    'pp_ORB_contra': pp_ORB_contra,
+    'pp_AI_contra': pp_AI_contra,
+    'pp_FRP_contra': pp_FRP_contra}
 
+# Check if the file exists
+if os.path.exists(file_path):
+    # Load the existing data
+    df_it_cells = pd.read_csv(file_path)
+else:
+    # Create a new DataFrame if the file doesn't exist
+    df_it_cells = pd.DataFrame(columns=new_row.keys())
+
+# Append the new row to the DataFrame
 df_it_cells = pd.concat([df_it_cells, pd.DataFrame([new_row])], ignore_index=True)
 
-# Save the DataFrame
-file_path = 'Z:/dmclab/Joana/tracing/Analysis/df_it_cells.csv'
+# Save the updated DataFrame back to the file
 df_it_cells.to_csv(file_path, index=False)
 
 print(emoji.emojize('DONE :star-struck:\U0001F42D'))

@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = []
+recent_files = ['..\\..\\..\\.spyder-py3\\temp.py', 'data_prep.py', 'total_cells.py', '..\\..\\..\\OneDrive_KI\\OneDrive - Karolinska Institutet\\Skrivbordet\\Joana\\Python scripts\\Cell_analysis\\Cfos_analysis.py', '..\\..\\..\\OneDrive_KI\\OneDrive - Karolinska Institutet\\Skrivbordet\\Joana\\Python scripts\\Cell_analysis\\Expression_normalized.py', '..\\..\\..\\OneDrive_KI\\OneDrive - Karolinska Institutet\\Skrivbordet\\Joana\\Python scripts\\Cell_analysis\\layer_plot.py', 'color_function.py', 'table_prep.py', 'co-loc_analysis.py', 'plot.py']
 
 [main]
 version = 0.2.0
