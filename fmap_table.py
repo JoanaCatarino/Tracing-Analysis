@@ -10,7 +10,7 @@ import pandas as pd
 import os
 
 # Select data paths
-data_p_path = 'Z:/dmclab/Joana/tracing/Analysis/data_prep/'
+data_p_path = 'Z:/dmclab/Joana/tracing/Analysis/final_data/'
 animal_info_path = 'Z:/dmclab/Joana/tracing/Analysis/animal_info.csv'
 fm_it_path = 'Z:/dmclab/Joana/tracing/Analysis/fm_it.csv'
 
@@ -53,12 +53,12 @@ for filename in os.listdir(data_p_path):
             continue
 
 
-        # Import prep data for the selected animal
+        # Import final data for the selected animal
         data_p = pd.read_csv(os.path.join(data_p_path, filename))
     
     
         # Remove unwanted columns
-        data_p = data_p.drop(columns=['Unnamed: 0','ap_mm', 'dv_mm', 'ml_mm'])
+        #data_p = data_p.drop(columns=['Unnamed: 0','ap_mm', 'dv_mm', 'ml_mm'])
         
         
         # Remove unwanted lines (we only want to keep cells in layer 5 and PFC)
@@ -102,10 +102,15 @@ for filename in os.listdir(data_p_path):
         slice_ap = animal_info.loc[animal_info['animal'] == animal_id, 'slice'].values[0] 
         data_p['slice'] = slice_ap
         
+        # Add projection column based on hemisphere comparison (injected vs hemisphere where cells were found)
+        data_p['projection'] = data_p.apply(lambda row: 'ipsi' if row['inj_hemisphere'] == row['hemisphere'] else 'contra', axis=1)
+        
+        # Correct ml values for flat map plots
+        data_p['ml_coords_corrected'] = data_p['ml_coords'].apply(lambda x: -x + 569*2 if x > 569 else x)
+        
         # Reorganize the columns within the data frame
-        data_p = data_p.loc[:,['animal_id','genotype','sex','channel', 'slice', 'inj_region', 'inj_hemisphere', 'inj_volume', 'acronym', 'region', 'part', 'layer', 'hemisphere', 'ap_coords',
-                                 'dv_coords','ml_coords','structure_id']]
-
+        data_p = data_p.loc[:,['animal_id','genotype','sex','channel', 'slice', 'inj_region', 'inj_hemisphere', 'inj_volume', 'acronym', 'region', 'part', 'layer', 'hemisphere','projection',
+                               'ap_mm', 'dv_mm', 'ml_mm', 'ap_coords', 'dv_coords','ml_coords','ml_coords_corrected','structure_id']]
 
         # Append the new data to the final table
         fm_it = pd.concat([fm_it, data_p], ignore_index = True)

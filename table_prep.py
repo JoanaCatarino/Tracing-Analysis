@@ -16,7 +16,7 @@ import emoji
 import os
 
 # Select the animal to plot
-animal_id = 857302
+animal_id = 848599
 
 # Select channel to plot
 channel = "cy3"

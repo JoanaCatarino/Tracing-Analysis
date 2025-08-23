@@ -18,7 +18,9 @@ import emoji
 animal_id = 857302
 
 # Select channel to pre-process (cy3, green or dapi-colocalized cells)
-channel = 'cy3'
+#channel= 'cy3'
+#channel = 'green'
+channel = 'dapi'
 
 # Import data for that animal
 data = pd.read_csv('Z:/dmclab/Joana/tracing/Analysis/data_raw/'f'{animal_id}_cells_{channel}.csv')
